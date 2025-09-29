@@ -6,6 +6,13 @@ body {
     color: #333;
     font-family: "Noto Sans KR", sans-serif;
 }
+
+
+
+.validate-error{
+	font-size : 0.85rem;
+	color : red;
+}
 .vertical-flex {
 	display:flex;
 	flex-direction: column;
@@ -117,8 +124,10 @@ button {
      border-radius: 5px;
      background-color: transparent;
      transition: all 0.2s;
-     
 }
+
+
+
 button.save-btn {
      color: #4949ff;
            
@@ -137,6 +146,15 @@ button.cancel-btn {
      }
 }
 
+button:disabled {
+    background-color : gray;
+    color :#333;
+    &:hover{
+     background-color : #eee;   
+     color: #666;
+    } 
+}
+
 
 div.btn-group {
 	& > .right-align{
@@ -145,9 +163,9 @@ div.btn-group {
 
 div.board-write {
     grid-template-columns: 80px 1fr;
-    grid-template-rows: 28px 28px auto 320px 1fr;
+    grid-template-rows: repeat(3,auto) 320px 1fr;
     
-    & > textarea {
+    & textarea {
         height: 300px;
     }
 }
@@ -158,11 +176,16 @@ div.board-view {
     grid-template-rows: repeat(2, 28px) auto repeat(3,28px) minmax(320px, auto) 1fr;
 }
 
+div.member-regist{
+	grid-template-columns: 120px 1fr;
+    grid-template-rows: repeat(5, auto);
+}
+
 div.grid {
     display: grid;
     row-gap: 10px;
     
-    & > label.require{
+    & label.require{
        vertical-align: middle;
        
        &:before {
@@ -173,9 +196,17 @@ div.grid {
         }
     }
     
-    & > button, input, textarea {
+    & input,
+    & textarea {
+        width : 100%
+    }
+    
+    & button, 
+    & input, 
+    & textarea {
        padding: 10px;
        outline: 0;
+       box-sizing : boarder-box;
     }
     
     & > div.btn-group {

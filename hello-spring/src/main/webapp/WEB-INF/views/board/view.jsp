@@ -23,7 +23,7 @@
                         <div>  ${detail.fileGroupVO.fileCount} 개의 첨부파일이 있다 </div>
                         <c:forEach items="${detail.fileGroupVO.fileVO}" var="article">
 	                        <div>
-	                            <a href="/file/${detail.id}/${article.fileGroupId}/${article.fileGroupId}">
+	                            <a href="/file/${detail.id}/${article.fileGroupId}/${article.fileId}">
 	                               ${article.fileDisplayName}
 	                            </a>
 	                            ${article.fileSize} bytes

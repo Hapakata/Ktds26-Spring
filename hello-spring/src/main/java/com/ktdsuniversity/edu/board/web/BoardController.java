@@ -3,6 +3,7 @@ package com.ktdsuniversity.edu.board.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,8 @@ import com.ktdsuniversity.edu.board.service.impl.BoardServiceImpl;
 import com.ktdsuniversity.edu.board.vo.BoardListVO;
 import com.ktdsuniversity.edu.board.vo.BoardVO;
 import com.ktdsuniversity.edu.board.vo.RequestCreateBoardVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
@@ -52,7 +55,16 @@ public class BoardController {
 	// 포스트는 알아서 쏙쏙 들어가네 편하다!
 	// 들어갔다 반환까지! 키야
 	@PostMapping("/write")
-	public String writePage(RequestCreateBoardVO requestCreateBoardVO) {
+	public String writePage(@Valid RequestCreateBoardVO requestCreateBoardVO ,
+							BindingResult bindingResult,
+							Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("writeData",requestCreateBoardVO);
+			System.out.println("유효값 아님!");
+			return "board/write";
+		}
+		
 		boolean isSuccess = this.boardService.writeBoard(requestCreateBoardVO);
 		return "redirect:/view/" + requestCreateBoardVO.getId();
 	}
@@ -66,7 +78,13 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify/{id}")
-	public String wirtePage(@PathVariable("id") String id, RequestCreateBoardVO requestCreateBoardVO) {
+	public String wirtePage(@PathVariable("id") String id, @Valid RequestCreateBoardVO requestCreateBoardVO
+														 , BindingResult bindingResult, Model model) {
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("detail",requestCreateBoardVO);
+			return "redirect:/modify/" + requestCreateBoardVO.getId();
+		}
+		
 		requestCreateBoardVO.setId(id);
 		boolean isSuccess = this.boardService.modifyBoard(requestCreateBoardVO);
 		return "redirect:/view/" + requestCreateBoardVO.getId();
